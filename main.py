@@ -65,13 +65,10 @@ def get_datadog_logs(member_group_id, since, until):
 def parse_data(data, member_group_id):
     aggregated_counts = {}
 
-    # Define regular expression patterns
     member_group_pattern = r"/\d+"
     draft_pattern = r"/drafts/[^/]+"
 
-    # Loop through the data
     for entry in data:
-        # Extract relevant information from the entry
         log_path = entry["by"]["log_path"]
         count = entry["computes"]["c0"]
 
@@ -81,13 +78,10 @@ def parse_data(data, member_group_id):
         # Replace long string ID after 'drafts/' with '*'
         log_path = re.sub(draft_pattern, r"/drafts/*", log_path)
 
-        # Create a key using the modified log_path
         key = log_path
 
-        # Update the aggregated counts
         aggregated_counts[key] = aggregated_counts.get(key, 0) + count
 
-    # Print the aggregated counts with the modified log paths
     for log_path, count in aggregated_counts.items():
         print(f"Log Member Group: 117, Modified Log Path: {log_path}, Count: {count}")
 
