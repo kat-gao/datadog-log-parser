@@ -5,6 +5,7 @@ from datadog_api_client.v2.model.logs_aggregate_sort import LogsAggregateSort
 from datadog_api_client.v2.model.logs_aggregate_sort_type import LogsAggregateSortType
 from datadog_api_client.v2.model.logs_aggregation_function import LogsAggregationFunction
 from datadog_api_client.v2.model.logs_compute import LogsCompute
+from datadog_api_client.v2.model.logs_aggregate_request_page import LogsAggregateRequestPage
 from datadog_api_client.v2.model.logs_compute_type import LogsComputeType
 from datadog_api_client.v2.model.logs_group_by import LogsGroupBy
 from datadog_api_client.v2.model.logs_query_filter import LogsQueryFilter
@@ -48,6 +49,7 @@ def get_datadog_logs(member_group_id, since, until):
                 limit=100,
             ),
         ],
+        page=LogsAggregateRequestPage(),
     )
 
     configuration = Configuration()
@@ -56,7 +58,7 @@ def get_datadog_logs(member_group_id, since, until):
         api_instance = LogsApi(api_client)
         response = api_instance.aggregate_logs(body=body)
 
-        print(response.data.buckets[0], "data returned!!!")
+        print(response.meta, "data returned!!!")
         return response.data.buckets
 
 
@@ -91,6 +93,6 @@ def parse_data(data, member_group_id):
 
 
 if __name__ == '__main__':
-    data = get_datadog_logs(117, "1691337810000", "1691424210000")
+    data = get_datadog_logs(117, "1672521600000", "1699366400000")
     parse_data(data, 117)
 
